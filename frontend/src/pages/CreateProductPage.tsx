@@ -1,53 +1,69 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Heading,
+  Input,
+  VStack,
+} from "@chakra-ui/react";
+
+export interface Product {
+  name: string;
+  price: number;
+  image: string;
+}
 
 function CreateProductPage() {
-  const [productName, setProductName] = useState("");
-  const [productDescription, setProductDescription] = useState("");
-  const [productPrice, setProductPrice] = useState("");
+  const [product, setProduct] = useState<Product>({
+    name: "",
+    price: 0,
+    image: "",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle product creation logic here
-    console.log({
-      name: productName,
-      description: productDescription,
-      price: productPrice,
-    });
+  const handleAddProduct = async () => {
+    console.log(product);
   };
-
   return (
-    <div>
-      <h1>Create Product</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Product Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={productName}
-            onChange={(e) => setProductName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="description">Product Description:</label>
-          <textarea
-            id="description"
-            value={productDescription}
-            onChange={(e) => setProductDescription(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="price">Product Price:</label>
-          <input
-            type="text"
-            id="price"
-            value={productPrice}
-            onChange={(e) => setProductPrice(e.target.value)}
-          />
-        </div>
-        <button type="submit">Create Product</button>
-      </form>
-    </div>
+    <Container maxW={"1000px"} px={8}>
+      <VStack spaceX={8}>
+        <Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8}>
+          Create New Product
+        </Heading>
+
+        <Box w={"full"} bg={"gray.100"} p={6} rounded={"lg"} shadow={"md"}>
+          <VStack>
+            <Input
+              placeholder="Product Name"
+              name="name"
+              value={product?.name}
+              onChange={(e) => setProduct({ ...product, name: e.target.value })}
+            />
+            <Input
+              placeholder="Price"
+              name="price"
+              type="number"
+              value={product.price}
+              onChange={(e) =>
+                setProduct({ ...product, price: Number(e.target.value) })
+              }
+            />
+            <Input
+              placeholder="Image URL"
+              name="image"
+              value={product.image}
+              onChange={(e) =>
+                setProduct({ ...product, image: e.target.value })
+              }
+            />
+
+            <Button colorScheme="blue" onClick={handleAddProduct} w="full">
+              Add Product
+            </Button>
+          </VStack>
+        </Box>
+      </VStack>
+    </Container>
   );
 }
 
