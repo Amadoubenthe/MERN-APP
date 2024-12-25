@@ -7,23 +7,25 @@ import {
   Input,
   VStack,
 } from "@chakra-ui/react";
-
-export interface Product {
-  name: string;
-  price: number;
-  image: string;
-}
+import { ProductPayload, useProductStore } from "@/store/product.store";
 
 function CreateProductPage() {
-  const [product, setProduct] = useState<Product>({
+  const [product, setProduct] = useState<ProductPayload>({
     name: "",
     price: 0,
     image: "",
   });
 
+  const { addProduct } = useProductStore();
+
   const handleAddProduct = async () => {
     console.log(product);
+    const { message, success, data } = await addProduct(product);
+    console.log(`Success: ${success}`);
+    console.log(`Message: ${message}`);
+    console.log(`Data: ${data}`);
   };
+
   return (
     <Container maxW={"1000px"} px={8}>
       <VStack spaceX={8}>
