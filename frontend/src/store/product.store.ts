@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 // Define interfaces
-interface Product {
+export interface Product {
   _id: string;
   name: string;
   price: number;
